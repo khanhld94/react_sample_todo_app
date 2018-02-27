@@ -19,12 +19,16 @@ const Title=()=> {
 class TodoList extends Component {
     constructor(props, context) {
         super(props, context);
+        let n=1;
+        let items= [];
+        while (n<= 10){
+            let task = {text: "task" + n, key: n, status: 0}
+            items.push(task);
+            n++
+        }
         this.state = {
-          items: [{text:"khanh", "key": 1, status: 0},
-                  {text:"bbbbb", "key": 2, status: 0}
-                 ],
-          allItems: [{text:"khanh", "key": 1, status: 0},
-              {text:"bbbbb", "key": 2, status: 0}]
+          items: items,
+          allItems: items
         };
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -43,7 +47,7 @@ class TodoList extends Component {
                 key: Date.now(),
                 status: 0
             });
-
+            console.log(itemArray)
             this.setState({
                 items: itemArray,
                 allItems: itemArray
@@ -77,7 +81,6 @@ class TodoList extends Component {
         })
         this.setState({
             items: array,
-            allItems: array
         });
     }
     edit(key){
@@ -108,17 +111,13 @@ class TodoList extends Component {
                 return item
             }
         })
-        let item2 =this.state.allItems.find(function (x) {
-            if(item.key === key){
-                return item
-            }
-        })
+        let allItems = this.state.allItems.find(x=> x.key === key)
         if (input === ""){
             alert("Not empty pls")
         }
         else {
+            allItems.text = input
             item.text = input;
-            item2.text = input;
             this.setState({
                 items: array,
                 allItems: this.state.allItems
