@@ -5,30 +5,88 @@ import Search from "./Search"
 import DoneTaskList from "./DoneTaskList"
 import TodoTaskList from "./TodoTaskList"
 
-const Title=()=> {
-    return(
-        <div>
-            <h1>Task List</h1>
-            Both: <input type="radio" name="option" value="0" defaultChecked={true}/>
-            Todo: <input type="radio" name="option" value="1"/>
-            Done: <input type="radio" name="option" value="2"/>
-        </div>
-    );
+class Title extends Component{
+    constructor(props, context) {
+        super(props, context);
+        this.getChecked = this.getChecked.bind(this)
+    }
+    getChecked(value){
+        this.props.getChecked(value)
+    }
+    render(){
+        return(
+            <div>
+                <h1>Task List</h1>
+                Both: <input type="radio" name="option" defaultChecked={true} onClick={()=>this.getChecked(0)}/>
+                Todo: <input type="radio" name="option" onClick={()=>this.getChecked(1)}/>
+                Done: <input type="radio" name="option" onClick={()=>this.getChecked(2)}/>
+            </div>
+        );
+    }
 }
 
+class RenderTask extends Component{
+    constructor(props, context) {
+        super(props, context);
+
+    }
+    render(){
+        let value = this.props.value;
+        if(value == 0){
+            return(
+                <div>
+                    <h5>Todo:</h5>
+                    <TodoTaskList data={this.props.data}
+                                  remove={this.props.remove}
+                                  done={this.props.done}
+                                  edit={this.props.edit}/>
+                    <hr/>
+                    <h5>Done:</h5>
+                    <DoneTaskList data={this.props.data}
+                                  remove={this.props.remove}
+                                  undone={this.props.undone}
+                                  edit={this.props.edit}/>
+                </div>
+            )
+        }
+        else if(value == 1){
+            return(
+                <div>
+                    <h5>Todo:</h5>
+                    <TodoTaskList data={this.props.data}
+                                  remove={this.props.remove}
+                                  done={this.props.done}
+                                  edit={this.props.edit}/>
+                </div>
+            )
+        }
+        else {
+            return(
+                <div>
+                    <h5>Done:</h5>
+                    <DoneTaskList data={this.props.data}
+                                  remove={this.props.remove}
+                                  undone={this.props.undone}
+                                  edit={this.props.edit}/>
+                </div>
+            )
+        }
+        }
+}
 class TodoList extends Component {
     constructor(props, context) {
         super(props, context);
         let n=1;
         let items= [];
-        while (n<= 10){
-            let task = {text: "task" + n, key: n, status: 0}
+        while (n<= 6){
+            let task = {text: "task" + n, key: n, status: Math.round(Math.random())}
             items.push(task);
             n++
         }
         this.state = {
           items: items,
-          allItems: items
+          allItems: items,
+          value: 0
         };
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -36,6 +94,7 @@ class TodoList extends Component {
         this.edit = this.edit.bind(this);
         this.update = this.update.bind(this);
         this.search = this.search.bind(this);
+        this.getChecked = this.getChecked.bind(this)
     }
     addItem(e) {
         e.preventDefault();
@@ -145,6 +204,11 @@ class TodoList extends Component {
         }
 
     }
+    getChecked(value){
+        this.setState({
+            value: value
+        })
+    }
     render(){
         return(
             <div className="todoListMain">
@@ -156,18 +220,14 @@ class TodoList extends Component {
                     </form>
                 </div>
                 <div id="wrapper"></div>
-                <Title/>
-                <h5>Todo:</h5>
-                <TodoTaskList data={this.state.items}
-                          remove={this.deleteItem}
-                          done={this.changeStatus}
-                          edit={this.edit}/>
-                <hr/>
-                <h5>Done:</h5>
-                <DoneTaskList data={this.state.items}
-                              remove={this.deleteItem}
-                              undone={this.changeStatus}
-                              edit={this.edit}/>
+                <Title getChecked = {this.getChecked}/>
+                <RenderTask data={this.state.items}
+                            remove={this.deleteItem}
+                            done={this.changeStatus}
+                            edit={this.edit}
+                            undone={this.changeStatus}
+                            value={this.state.value}
+                            />
             </div>
         );
     }
