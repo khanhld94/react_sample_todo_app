@@ -16,23 +16,28 @@ class Title extends Component{
     render(){
         return(
             <div>
-                <h1>Task List</h1>
-                Both: <input type="radio" name="option" defaultChecked={true} onClick={()=>this.getChecked(0)}/>
-                Todo: <input type="radio" name="option" onClick={()=>this.getChecked(1)}/>
-                Done: <input type="radio" name="option" onClick={()=>this.getChecked(2)}/>
+                <hr/>
+                <form>
+                    <label className="radio-inline">
+                        <input type="radio" name="radioname" className="optradio" defaultChecked={true} onClick={()=>this.getChecked(0)}/>Both
+                    </label>
+                    <label className="radio-inline">
+                        <input type="radio" name="radioname" className="optradio" onClick={()=>this.getChecked(1)}/>Todo Task
+                    </label>
+                    <label className="radio-inline">
+                        <input type="radio" name="radioname" className="optradio" onClick={()=>this.getChecked(2)}/>Done Task
+                    </label>
+                </form>
+                <hr/>
             </div>
         );
     }
 }
 
 class RenderTask extends Component{
-    constructor(props, context) {
-        super(props, context);
-
-    }
     render(){
         let value = this.props.value;
-        if(value == 0){
+        if(value === 0){
             return(
                 <div>
                     <h5>Todo:</h5>
@@ -49,7 +54,7 @@ class RenderTask extends Component{
                 </div>
             )
         }
-        else if(value == 1){
+        else if(value === 1){
             return(
                 <div>
                     <h5>Todo:</h5>
@@ -149,9 +154,13 @@ class TodoList extends Component {
         if(t != null){
             ReactDOM.unmountComponentAtNode(document.getElementById("wrapper"))
         }
-        ReactDOM.render(<div id="editForm" className="header">
-            <input id="input" defaultValue={item.text}/>
-            <button onClick={() => this.update(item.key)}>Update</button>
+        ReactDOM.render(
+            <div id="editForm" className="header">
+                <div className="input-group">
+                    <input className="form-control" id="input" defaultValue={item.text}/>
+                    <span className="input-group-btn">
+                     <button className="btn btn-success" onClick={() => this.update(item.key)}>Update</button>
+                    </span></div>
         </div>, document.getElementById('wrapper'));
         // let t = document.getElementById(item.key);
         // if(t != null){
@@ -214,9 +223,11 @@ class TodoList extends Component {
             <div className="todoListMain">
                 <Search search={this.search}/>
                 <div className="header">
-                    <form onSubmit={this.addItem}>
-                        <input ref={(a) => this._inputElement = a} placeholder="Enter Task Name Here"/>
-                        <button type="submit">Submit</button>
+                    <form className="input-group" onSubmit={this.addItem}>
+                        <input className="form-control" ref={(a) => this._inputElement = a} placeholder="Enter Task Name Here"/>
+                        <span className="input-group-btn">
+                         <button className="btn btn-success" type="submit">Create</button>
+                        </span>
                     </form>
                 </div>
                 <div id="wrapper"></div>

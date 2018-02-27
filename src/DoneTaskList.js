@@ -21,9 +21,9 @@ class DoneTaskList extends Component{
     }
     createTasks(item) {
         return <div key={item.key}>
-            <li id={item.key}>{item.text}<button className="button" onClick={()=>{this.undone(item.key)}}>UnDone</button>
-                <button className="button" onClick={()=>this.edit(item.key)}>Edit</button>
-                <button className="button" onClick={()=>this.remove(item.key)}>Delete</button>
+            <li id={item.key}>{item.text}<button className="button btn-sm btn-success" onClick={()=>{this.undone(item.key)}}>UnDone</button>
+                <button className="button btn-sm" onClick={()=>this.edit(item.key)}>Edit</button>
+                <button className="button btn-sm btn-danger" onClick={()=>this.remove(item.key)}>Delete</button>
             </li>
         </div>
     }
