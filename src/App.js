@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import ReactDOM from "react-dom";
+import Search from "./Search"
+import DoneTaskList from "./DoneTaskList"
+import TodoTaskList from "./TodoTaskList"
 
 const Title=()=> {
     return(
@@ -11,95 +14,6 @@ const Title=()=> {
             Done: <input type="radio" name="option" value="2"/>
         </div>
     );
-}
-
-class Search extends Component{
-    constructor(props,context){
-        super(props,context);
-        this.search = this.search.bind(this);
-    }
-    search(){
-        this.props.search();
-    }
-    render(){
-        return(
-            <div className="header">
-                <input type="text" id="searchfield"></input>
-                <button onClick={()=> this.search()}>Search</button>
-            </div>
-        )
-    }
-
-}
-class TodoTaskList extends Component{
-    constructor(props, context) {
-        super(props, context);
-        this.createTasks = this.createTasks.bind(this);
-
-    }
-    remove(key){
-        this.props.remove(key)
-    }
-    done(key){
-        this.props.done(key)
-    }
-    edit(key){
-        this.props.edit(key)
-    }
-    update(key){
-        this.props.update(key)
-    }
-    createTasks(item) {
-        return <div key={item.key}>
-            <li id={item.key}>{item.text}<button className="button" onClick={()=>{this.done(item.key)}}>Done</button>
-                <button className="button" onClick={()=>this.edit(item.key)}>Edit</button>
-                <button className="button" onClick={()=>this.remove(item.key)}>Delete</button>
-            </li>
-           </div>
-    }
-    render()
-    {
-
-        var task = (this.props.data).filter(x => x.status === 0).map(this.createTasks)
-        return(
-            <ul className="theList">{task}</ul>
-        )
-    }
-}
-class DoneTaskList extends Component{
-    constructor(props, context) {
-        super(props, context);
-        this.createTasks = this.createTasks.bind(this);
-
-    }
-    remove(key){
-        this.props.remove(key)
-    }
-    undone(key){
-        this.props.undone(key)
-    }
-    edit(key){
-        this.props.edit(key)
-    }
-    update(key){
-        this.props.update(key)
-    }
-    createTasks(item) {
-        return <div key={item.key}>
-            <li id={item.key}>{item.text}<button className="button" onClick={()=>{this.undone(item.key)}}>UnDone</button>
-                <button className="button" onClick={()=>this.edit(item.key)}>Edit</button>
-                <button className="button" onClick={()=>this.remove(item.key)}>Delete</button>
-            </li>
-        </div>
-    }
-    render()
-    {
-
-        var task = (this.props.data).filter(x => x.status === 1).map(this.createTasks)
-        return(
-            <ul className="theList">{task}</ul>
-        )
-    }
 }
 
 class TodoList extends Component {
@@ -187,30 +101,33 @@ class TodoList extends Component {
         // </div>, document.getElementById(item.key));
     }
     update(key){
-        var array = this.state.items;
-        var input = document.getElementById('input').value;
+        let array = this.state.items;
+        let input = document.getElementById('input').value;
         let item = array.find(function(item){
             if(item.key === key){
                 return item
             }
         })
-        let allItems = this.state.items.filter(function (x) {
-            return x.key !== key
+        let item2 =this.state.allItems.find(function (x) {
+            if(item.key === key){
+                return item
+            }
         })
         if (input === ""){
             alert("Not empty pls")
         }
         else {
             item.text = input;
+            item2.text = input;
             this.setState({
                 items: array,
-                allItems: allItems
+                allItems: this.state.allItems
             })
             ReactDOM.unmountComponentAtNode(document.getElementById("wrapper"))
         }
     }
     search(){
-        var arr = this.state.allItems;
+        let arr = this.state.allItems;
         let keyword = document.getElementById('searchfield').value;
         let rs = arr.filter(function (item) {
             if(item.text.toString().toLowerCase().includes(keyword.toLowerCase())){
