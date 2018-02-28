@@ -11,10 +11,18 @@ class AllTask extends Component{
         }
     }
     display(item) {
-        return <div key={item.key} onClick={()=>this.pagination()}>
-            <li id={item.key}>{item.text}<button className="button btn-sm btn-success" onClick={()=>{this.undone(item.key)}}>UnDone</button>
-                <button className="button btn-sm" onClick={()=>this.edit(item.key)}>Edit</button>
-                <button className="button btn-sm btn-danger" onClick={()=>this.remove(item.key)}>Delete</button>
+        return <div key={item.key}>
+            <li id={item.key}>{item.text}
+            {item.status === 1 ?
+                (
+                <span className="icon" onClick={()=>{this.props.undone(item.key)}}><i style={{color:"green"}} className="fa-lg fa fa-check-circle"></i></span>
+                )
+                :
+                (
+                    <span className="icon" onClick={()=>{this.props.done(item.key)}}><i style={{color:"red"}} className="fa fa-lg fa-ban"></i></span>
+                )}
+                <button className="button btn-sm" onClick={()=>this.props.edit(item.key)}>Edit</button>
+                <button className="button btn-sm btn-danger" onClick={()=>this.props.remove(item.key)}>Delete</button>
             </li>
         </div>
     }

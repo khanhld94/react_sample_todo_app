@@ -21,7 +21,8 @@ class TodoTaskList extends Component{
     }
     createTasks(item) {
         return <div key={item.key}>
-            <li id={item.key}>{item.text}<button className="button btn-sm btn-success" onClick={()=>{this.done(item.key)}}>Done</button>
+            <li id={item.key}>{item.text}
+                <span className="icon" onClick={()=>{this.done(item.key)}}><i style={{color:"red"}} className="fa fa-lg fa-ban"></i></span>
                 <button className="button btn-sm" onClick={()=>this.edit(item.key)}>Edit</button>
                 <button className="button btn-sm btn-danger" onClick={()=>this.remove(item.key)}>Delete</button>
             </li>

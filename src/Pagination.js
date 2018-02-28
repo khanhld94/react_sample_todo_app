@@ -21,10 +21,10 @@ class Pagination extends Component{
     }
     render(){
         let count = this.renderPagination();
-        let numberlist =[];
+        let numberList =[];
         for(let i=1; i <= count; i++){
-            numberlist.push(
-                <li key={"page"+i} className={"page-item "+ (this.state.currentPage === i ? "active" : null)}>
+            numberList.push(
+                <li style={{color: "blue"}} key={"page"+i} className={"page-item "+ (this.state.currentPage === i ? "active" : null)}>
                 <a className="page-link"
                    onClick={()=>this.pagination(i)}>{i}</a></li>
             )
@@ -32,17 +32,23 @@ class Pagination extends Component{
         return(
             <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
-                    {this.props.allItems.length < 2 ? (
-                        null
+                    {this.state.currentPage < 2 ? (
+                        <li className="page-item disabled">
+                            <a className="page-link">Previous</a>
+                        </li>
                     ) : (
                         <li className="page-item">
-                            <a className="page-link" href="#" onClick={()=>this.pagination(this.state.currentPage-1)}>Previous</a>
+                            <a style={{color: "blue"}} className="page-link" onClick={()=>this.pagination(this.state.currentPage-1)}>Previous</a>
                         </li>
                     )}
-                    {numberlist}
+                    {numberList}
                     {
-                        this.state.currentPage === Math.ceil(this.props.allItems.length/5) ? (null) : (<li className="page-item">
-                            <a className="page-link" href="#" onClick={()=>this.pagination(this.state.currentPage+1)}>Next</a>
+                        this.state.currentPage === Math.ceil(this.props.allItems.length/5) ?
+                            (<li className="page-item disabled">
+                                <a className="page-link">Next</a>
+                            </li>) :
+                            (<li className="page-item">
+                            <a style={{color: "blue"}} className="page-link" onClick={()=>this.pagination(this.state.currentPage+1)}>Next</a>
                         </li>)
                     }
 

@@ -31,3 +31,7 @@ body {
 .button{
   float: right;
 }
+.icon{
+  float: right;
+  margin-left: 5px;
+}

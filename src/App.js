@@ -39,6 +39,9 @@ class Title extends Component{
 }
 
 class RenderTask extends Component{
+    constructor(props,context){
+        super(props,context);
+    }
     render(){
         let value = this.props.value;
         if(value === 0){
@@ -46,6 +49,10 @@ class RenderTask extends Component{
                 <div>
                     <h5>All:</h5>
                     <AllTask allItems={this.props.allItems}
+                             remove={this.props.remove}
+                             edit={this.props.edit}
+                             done={this.props.done}
+                             undone={this.props.undone}
                     />
                 </div>
             )
@@ -96,8 +103,17 @@ class TodoList extends Component {
         super(props, context);
         let n=1;
         let items= [];
+        function makeRandomString() {
+            var text = "";
+            var possible = "abcdefghijklmnopqrstuvwxyz";
+
+            for (var i = 0; i < 7; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
         while (n<= 13){
-            let task = {text: "task" + n, key: n, status: Math.round(Math.random())}
+            let task = {text: "task "+makeRandomString(), key: n, status: Math.round(Math.random())}
             items.push(task);
             n++
         }
@@ -175,14 +191,6 @@ class TodoList extends Component {
                      <button className="btn btn-success" onClick={() => this.update(item.key)}>Update</button>
                     </span></div>
         </div>, document.getElementById('wrapper'));
-        // let t = document.getElementById(item.key);
-        // if(t != null){
-        //     ReactDOM.unmountComponentAtNode(document.getElementById("wrapper"))
-        // }
-        // ReactDOM.render(<div id="editForm" className="header">
-        //     <input id="input" defaultValue={item.text}/>
-        //     <button onClick={() => this.update(item.key)}>Update</button>
-        // </div>, document.getElementById(item.key));
     }
     update(key){
         let array = this.state.items;
@@ -251,7 +259,7 @@ class TodoList extends Component {
                             edit={this.edit}
                             undone={this.changeStatus}
                             value={this.state.value}
-                            allItems={this.state.allItems}
+                            allItems={this.state.items}
                             />
             </div>
         );
