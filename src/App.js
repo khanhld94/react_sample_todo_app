@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Search from "./Search"
 import DoneTaskList from "./DoneTaskList"
 import TodoTaskList from "./TodoTaskList"
+import AllTask from "./AllTask"
 
 class Title extends Component{
     constructor(props, context) {
@@ -19,13 +20,16 @@ class Title extends Component{
                 <hr/>
                 <form>
                     <label className="radio-inline">
-                        <input type="radio" name="radioname" className="optradio" defaultChecked={true} onClick={()=>this.getChecked(0)}/>Both
+                        <input type="radio" name="radioname" className="optradio" defaultChecked={true} onClick={()=>this.getChecked(0)}/>AllTask
                     </label>
                     <label className="radio-inline">
                         <input type="radio" name="radioname" className="optradio" onClick={()=>this.getChecked(1)}/>Todo Task
                     </label>
                     <label className="radio-inline">
                         <input type="radio" name="radioname" className="optradio" onClick={()=>this.getChecked(2)}/>Done Task
+                    </label>
+                    <label className="radio-inline">
+                        <input type="radio" name="radioname" className="optradio" onClick={()=>this.getChecked(3)}/>Both
                     </label>
                 </form>
                 <hr/>
@@ -38,6 +42,37 @@ class RenderTask extends Component{
     render(){
         let value = this.props.value;
         if(value === 0){
+            return(
+                <div>
+                    <h5>All:</h5>
+                    <AllTask allItems={this.props.allItems}
+                    />
+                </div>
+            )
+        }
+        else if(value === 1){
+            return(
+                <div>
+                    <h5>Todo:</h5>
+                    <TodoTaskList data={this.props.data}
+                                  remove={this.props.remove}
+                                  done={this.props.done}
+                                  edit={this.props.edit}/>
+                </div>
+            )
+        }
+        else if(value === 2){
+            return(
+                <div>
+                    <h5>Done:</h5>
+                    <DoneTaskList data={this.props.data}
+                                  remove={this.props.remove}
+                                  undone={this.props.undone}
+                                  edit={this.props.edit}/>
+                </div>
+            )
+        }
+        else {
             return(
                 <div>
                     <h5>Todo:</h5>
@@ -54,28 +89,6 @@ class RenderTask extends Component{
                 </div>
             )
         }
-        else if(value === 1){
-            return(
-                <div>
-                    <h5>Todo:</h5>
-                    <TodoTaskList data={this.props.data}
-                                  remove={this.props.remove}
-                                  done={this.props.done}
-                                  edit={this.props.edit}/>
-                </div>
-            )
-        }
-        else {
-            return(
-                <div>
-                    <h5>Done:</h5>
-                    <DoneTaskList data={this.props.data}
-                                  remove={this.props.remove}
-                                  undone={this.props.undone}
-                                  edit={this.props.edit}/>
-                </div>
-            )
-        }
         }
 }
 class TodoList extends Component {
@@ -83,7 +96,7 @@ class TodoList extends Component {
         super(props, context);
         let n=1;
         let items= [];
-        while (n<= 6){
+        while (n<= 13){
             let task = {text: "task" + n, key: n, status: Math.round(Math.random())}
             items.push(task);
             n++
@@ -238,6 +251,7 @@ class TodoList extends Component {
                             edit={this.edit}
                             undone={this.changeStatus}
                             value={this.state.value}
+                            allItems={this.state.allItems}
                             />
             </div>
         );
