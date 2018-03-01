@@ -35,3 +35,7 @@ body {
   float: right;
   margin-left: 5px;
 }
+.header-tt{
+  text-align: center;
+  font-size: 14px;
+}

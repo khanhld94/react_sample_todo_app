@@ -242,6 +242,8 @@ class TodoList extends Component {
     render(){
         return(
             <div className="todoListMain">
+                <h4 className="text-center"><a href="https://github.com/khanhld94/react_sample_todo_app"
+                                               target="_blank">Todo App</a></h4>
                 <Search search={this.search}/>
                 <div className="header">
                     <form className="input-group" onSubmit={this.addItem}>
@@ -261,6 +263,8 @@ class TodoList extends Component {
                             value={this.state.value}
                             allItems={this.state.items}
                             />
+                <hr/>
+                <br/>
             </div>
         );
     }

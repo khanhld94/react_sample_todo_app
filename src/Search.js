@@ -13,10 +13,9 @@ class Search extends Component{
         return(
             <div className="header">
               <div className="input-group">
-                <input type="text" className="form-control" id="searchfield"/>
-                <span className="input-group-btn">
-                 <button className="btn btn-default" onClick={()=> this.search()}>Search</button>
-                </span>
+                <input type="text" className="form-control" id="searchfield"
+                       placeholder="Search Here"
+                       onChange={()=> this.search()}/>
               </div>
             </div>
         )
